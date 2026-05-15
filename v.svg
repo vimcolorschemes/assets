@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="146" height="124" viewBox="0 0 146 124" role="img" aria-labelledby="title desc" shape-rendering="crispEdges">
+  <title id="title">v ANSI art</title>
+  <desc id="desc">Cell-accurate SVG rendering of the colored terminal ASCII art from v.sh.</desc>
+  <rect width="100%" height="100%" fill="#14171d"/>
+  <g>
+    <rect x="8" y="8" width="10" height="18" fill="#7fb4ca"/>
+    <rect x="18" y="8" width="10" height="18" fill="#81b5c2"/>
+    <rect x="28" y="8" width="10" height="18" fill="#83b5ba"/>
+    <rect x="38" y="8" width="10" height="18" fill="#85b6b2"/>
+    <rect x="88" y="8" width="10" height="18" fill="#90b98b"/>
+    <rect x="98" y="8" width="10" height="18" fill="#92b984"/>
+    <rect x="108" y="8" width="10" height="18" fill="#94ba7c"/>
+    <rect x="118" y="8" width="10" height="18" fill="#96ba74"/>
+    <rect x="8" y="26" width="10" height="18" fill="#7fb4ca"/>
+    <rect x="18" y="26" width="10" height="18" fill="#81b5c2"/>
+    <rect x="28" y="26" width="10" height="18" fill="#83b5ba"/>
+    <rect x="38" y="26" width="10" height="18" fill="#85b6b2"/>
+    <rect x="48" y="26" width="10" height="18" fill="#87b6ab" opacity="0.42"/>
+    <rect x="88" y="26" width="10" height="18" fill="#90b98b"/>
+    <rect x="98" y="26" width="10" height="18" fill="#92b984"/>
+    <rect x="108" y="26" width="10" height="18" fill="#94ba7c"/>
+    <rect x="118" y="26" width="10" height="18" fill="#96ba74"/>
+    <rect x="128" y="26" width="10" height="18" fill="#98bb6c" opacity="0.42"/>
+    <rect x="8" y="44" width="10" height="18" fill="#7fb4ca"/>
+    <rect x="18" y="44" width="10" height="18" fill="#81b5c2"/>
+    <rect x="28" y="44" width="10" height="18" fill="#83b5ba"/>
+    <rect x="38" y="44" width="10" height="18" fill="#85b6b2"/>
+    <rect x="48" y="44" width="10" height="18" fill="#87b6ab" opacity="0.42"/>
+    <rect x="68" y="44" width="10" height="18" fill="#8cb89b"/>
+    <rect x="78" y="44" width="10" height="18" fill="#8eb893"/>
+    <rect x="88" y="44" width="10" height="18" fill="#90b98b"/>
+    <rect x="98" y="44" width="10" height="18" fill="#92b984"/>
+    <rect x="108" y="44" width="10" height="18" fill="#94ba7c" opacity="0.42"/>
+    <rect x="118" y="44" width="10" height="18" fill="#96ba74" opacity="0.42"/>
+    <rect x="128" y="44" width="10" height="18" fill="#98bb6c" opacity="0.42"/>
+    <rect x="8" y="62" width="10" height="18" fill="#7fb4ca"/>
+    <rect x="18" y="62" width="10" height="18" fill="#81b5c2"/>
+    <rect x="28" y="62" width="10" height="18" fill="#83b5ba"/>
+    <rect x="38" y="62" width="10" height="18" fill="#85b6b2"/>
+    <rect x="48" y="62" width="10" height="18" fill="#87b6ab"/>
+    <rect x="58" y="62" width="10" height="18" fill="#89b7a3"/>
+    <rect x="68" y="62" width="10" height="18" fill="#8cb89b"/>
+    <rect x="78" y="62" width="10" height="18" fill="#8eb893"/>
+    <rect x="88" y="62" width="10" height="18" fill="#90b98b" opacity="0.42"/>
+    <rect x="98" y="62" width="10" height="18" fill="#92b984" opacity="0.42"/>
+    <rect x="108" y="62" width="10" height="18" fill="#94ba7c" opacity="0.42"/>
+    <rect x="8" y="80" width="10" height="18" fill="#7fb4ca"/>
+    <rect x="18" y="80" width="10" height="18" fill="#81b5c2"/>
+    <rect x="28" y="80" width="10" height="18" fill="#83b5ba"/>
+    <rect x="38" y="80" width="10" height="18" fill="#85b6b2"/>
+    <rect x="48" y="80" width="10" height="18" fill="#87b6ab"/>
+    <rect x="58" y="80" width="10" height="18" fill="#89b7a3"/>
+    <rect x="68" y="80" width="10" height="18" fill="#8cb89b" opacity="0.42"/>
+    <rect x="78" y="80" width="10" height="18" fill="#8eb893" opacity="0.42"/>
+    <rect x="88" y="80" width="10" height="18" fill="#90b98b" opacity="0.42"/>
+    <rect x="18" y="98" width="10" height="18" fill="#81b5c2" opacity="0.42"/>
+    <rect x="28" y="98" width="10" height="18" fill="#83b5ba" opacity="0.42"/>
+    <rect x="38" y="98" width="10" height="18" fill="#85b6b2" opacity="0.42"/>
+    <rect x="48" y="98" width="10" height="18" fill="#87b6ab" opacity="0.42"/>
+    <rect x="58" y="98" width="10" height="18" fill="#89b7a3" opacity="0.42"/>
+    <rect x="68" y="98" width="10" height="18" fill="#8cb89b" opacity="0.42"/>
+  </g>
+</svg>
