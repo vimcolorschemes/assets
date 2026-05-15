@@ -1,8 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1866" height="160" viewBox="0 0 1866 160" role="img" aria-labelledby="title desc" shape-rendering="crispEdges">
+<svg xmlns="http://www.w3.org/2000/svg" width="1930" height="224" viewBox="0 0 1930 224" role="img" aria-labelledby="title desc" shape-rendering="crispEdges">
   <title id="title">vimcolorschemes ANSI art</title>
   <desc id="desc">Cell-accurate SVG rendering of the colored terminal ASCII art from vimcolorschemes.sh.</desc>
+  <defs>
+    <linearGradient id="border-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7fb4ca"/>
+      <stop offset="0.5" stop-color="#8cb89b"/>
+      <stop offset="1" stop-color="#98bb6c"/>
+    </linearGradient>
+  </defs>
   <rect width="100%" height="100%" fill="#14171d"/>
-  <g>
+  <rect x="3" y="3" width="1924" height="218" fill="none" stroke="url(#border-gradient)" stroke-width="2" opacity="0.9"/>
+  <rect x="8" y="8" width="1914" height="208" fill="none" stroke="url(#border-gradient)" stroke-width="1" opacity="0.45"/>
+  <g transform="translate(32 32)">
     <rect x="158" y="8" width="10" height="18" fill="#81b5c2"/>
     <rect x="168" y="8" width="10" height="18" fill="#81b5c2"/>
     <rect x="178" y="8" width="10" height="18" fill="#81b5c1"/>
