@@ -15,6 +15,14 @@ func TestRenderRasterUsesComputedDimensionsAndCells(t *testing.T) {
 		t.Fatalf("bounds = %v, want 60x58", got)
 	}
 
+	if got := img.RGBAAt(0, 0); got == (color.RGBA{R: 9, G: 14, B: 19, A: 255}) {
+		t.Fatal("outer border left background-colored pixels at the image edge")
+	}
+
+	if got := img.RGBAAt(5, 5); got == (color.RGBA{R: 9, G: 14, B: 19, A: 255}) {
+		t.Fatal("inner border was not drawn at the expected inset")
+	}
+
 	if got := img.RGBAAt(20, 20); got != (color.RGBA{R: 1, G: 2, B: 3, A: 255}) {
 		t.Fatalf("first cell = %#v, want #010203", got)
 	}

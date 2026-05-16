@@ -30,8 +30,8 @@ func renderSVG(item asset, cells []cell, cols int, rows int) []byte {
 	fprintf(&out, "    </linearGradient>\n")
 	fprintf(&out, "  </defs>\n")
 	fprintf(&out, "  <rect width=\"100%%\" height=\"100%%\" fill=\"%s\"/>\n", backgroundColor)
-	fprintf(&out, "  <rect x=\"3\" y=\"3\" width=\"%d\" height=\"%d\" fill=\"none\" stroke=\"url(#border-gradient)\" stroke-width=\"2\" opacity=\"0.9\"/>\n", width-6, height-6)
-	fprintf(&out, "  <rect x=\"8\" y=\"8\" width=\"%d\" height=\"%d\" fill=\"none\" stroke=\"url(#border-gradient)\" stroke-width=\"1\" opacity=\"0.45\"/>\n", width-16, height-16)
+	fprintf(&out, "  <rect x=\"1\" y=\"1\" width=\"%d\" height=\"%d\" fill=\"none\" stroke=\"url(#border-gradient)\" stroke-width=\"2\" opacity=\"0.9\"/>\n", width-2, height-2)
+	fprintf(&out, "  <rect x=\"5\" y=\"5\" width=\"%d\" height=\"%d\" fill=\"none\" stroke=\"url(#border-gradient)\" stroke-width=\"1\" opacity=\"0.45\"/>\n", width-10, height-10)
 	fprintf(&out, "  <g transform=\"translate(%d %d)\">\n", translate, translate)
 
 	for _, c := range cells {

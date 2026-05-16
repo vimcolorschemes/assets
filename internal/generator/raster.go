@@ -23,8 +23,8 @@ func renderRaster(item asset, cells []cell, cols int, rows int) *image.RGBA {
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 	fillRect(img, 0, 0, width, height, mustRGB(backgroundColor), 1)
 
-	drawStrokeRect(img, 3, 3, width-6, height-6, 2, 0.9)
-	drawStrokeRect(img, 8, 8, width-16, height-16, 1, 0.45)
+	drawStrokeRect(img, 0, 0, width, height, 2, 0.9)
+	drawStrokeRect(img, 5, 5, width-10, height-10, 1, 0.45)
 
 	for _, c := range cells {
 		opacity := 1.0
