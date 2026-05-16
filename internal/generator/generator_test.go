@@ -21,3 +21,10 @@ func TestSelectedAssetsEmptyMeansAllAssets(t *testing.T) {
 		t.Fatalf("selectedAssets(nil) = %#v, want nil", selected)
 	}
 }
+
+func TestVariantPathAddsSuffixBeforeExtension(t *testing.T) {
+	got := variantPath("out/v.svg", "borderless")
+	if got != "out/v-borderless.svg" {
+		t.Fatalf("variantPath() = %q, want out/v-borderless.svg", got)
+	}
+}

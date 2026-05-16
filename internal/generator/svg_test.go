@@ -6,7 +6,7 @@ import (
 )
 
 func TestRenderSVGUsesComputedDimensionsAndMetadata(t *testing.T) {
-	svg := string(renderSVG(asset{Name: "unit<asset>", Padding: 20}, []cell{
+	svg := string(renderSVG(asset{Name: "unit<asset>", Padding: 20, Border: true}, []cell{
 		{X: 0, Y: 0, Color: "#010203"},
 		{X: 1, Y: 0, Color: "#040506", Opacity: shadowOpacity},
 	}, 2, 1))
@@ -32,7 +32,7 @@ func TestRenderSVGUsesComputedDimensionsAndMetadata(t *testing.T) {
 }
 
 func TestRenderSVGSquareAssetUsesEqualDimensionsAndCentersContent(t *testing.T) {
-	svg := string(renderSVG(asset{Name: "unit", Padding: 20, Square: true}, []cell{
+	svg := string(renderSVG(asset{Name: "unit", Padding: 20, Square: true, Border: true}, []cell{
 		{X: 0, Y: 0, Color: "#010203"},
 	}, 2, 1))
 
@@ -43,6 +43,32 @@ func TestRenderSVGSquareAssetUsesEqualDimensionsAndCentersContent(t *testing.T) 
 	for _, want := range wants {
 		if !strings.Contains(svg, want) {
 			t.Fatalf("SVG does not contain %q\n%s", want, svg)
+		}
+	}
+}
+
+func TestRenderSVGBorderlessKeepsDimensionsAndOmitsBorder(t *testing.T) {
+	svg := string(renderSVG(asset{Name: "unit", Padding: 20}, []cell{
+		{X: 0, Y: 0, Color: "#010203"},
+	}, 2, 1))
+
+	wants := []string{
+		`width="60" height="58" viewBox="0 0 60 58"`,
+		`<g transform="translate(12 12)">`,
+	}
+	for _, want := range wants {
+		if !strings.Contains(svg, want) {
+			t.Fatalf("SVG does not contain %q\n%s", want, svg)
+		}
+	}
+
+	unwanted := []string{
+		`border-gradient`,
+		`stroke="url(#border-gradient)"`,
+	}
+	for _, value := range unwanted {
+		if strings.Contains(svg, value) {
+			t.Fatalf("borderless SVG contains %q\n%s", value, svg)
 		}
 	}
 }

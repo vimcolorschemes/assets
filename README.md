@@ -29,4 +29,4 @@ make generate-vimcolorschemes
 make test
 ```
 
-Generated SVG, PNG, and WebP files are written to `out/`.
+Generated SVG, PNG, and WebP files are written to `out/`, including `*-borderless` variants without the TUI border.

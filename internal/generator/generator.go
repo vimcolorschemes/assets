@@ -20,11 +20,12 @@ type asset struct {
 	OutPath string
 	Padding int
 	Square  bool
+	Border  bool
 }
 
 var defaultAssets = []asset{
-	{Name: "v", Text: "v", OutPath: "out/v.svg", Padding: 20, Square: true},
-	{Name: "vimcolorschemes", Text: "vimcolorschemes", OutPath: "out/vimcolorschemes.svg", Padding: 40},
+	{Name: "v", Text: "v", OutPath: "out/v.svg", Padding: 20, Square: true, Border: true},
+	{Name: "vimcolorschemes", Text: "vimcolorschemes", OutPath: "out/vimcolorschemes.svg", Padding: 40, Border: true},
 }
 
 // Generate writes all assets, or only the named assets when names is non-empty.
@@ -89,6 +90,18 @@ func generateAsset(item asset, font *ansifonts.Font) error {
 		return err
 	}
 
+	if err := writeAssetFiles(item, cells, cols, rows); err != nil {
+		return err
+	}
+
+	borderless := item
+	borderless.Name += " borderless"
+	borderless.OutPath = variantPath(item.OutPath, "borderless")
+	borderless.Border = false
+	return writeAssetFiles(borderless, cells, cols, rows)
+}
+
+func writeAssetFiles(item asset, cells []cell, cols int, rows int) error {
 	svg := renderSVG(item, cells, cols, rows)
 	if err := os.MkdirAll(filepath.Dir(item.OutPath), 0o755); err != nil {
 		return err
@@ -103,6 +116,11 @@ func generateAsset(item asset, font *ansifonts.Font) error {
 		return err
 	}
 	return writeWebP(basePath+".webp", raster)
+}
+
+func variantPath(path string, variant string) string {
+	ext := filepath.Ext(path)
+	return strings.TrimSuffix(path, ext) + "-" + variant + ext
 }
 
 func renderOptions() ansifonts.RenderOptions {
