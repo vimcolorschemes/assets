@@ -18,10 +18,12 @@ type rgb struct {
 	b uint8
 }
 
-func renderRaster(item asset, theme theme, cells []cell, cols int, rows int) *image.RGBA {
+func renderRaster(item asset, theme theme, cells []cell, cols int, rows int) *image.NRGBA {
 	layout := assetLayout(item, cells, cols, rows)
-	img := image.NewRGBA(image.Rect(0, 0, layout.Width, layout.Height))
-	fillRect(img, 0, 0, layout.Width, layout.Height, mustRGB(theme.Background), 1)
+	img := image.NewNRGBA(image.Rect(0, 0, layout.Width, layout.Height))
+	if !item.Transparent {
+		fillRect(img, 0, 0, layout.Width, layout.Height, mustRGB(assetBackground(item, theme)), 1)
+	}
 
 	if item.Border {
 		drawStrokeRect(img, theme, 0, 0, layout.Width, layout.Height, 2, 0.9)
@@ -59,7 +61,7 @@ func writeWebP(path string, img image.Image) error {
 	return gowebper.Encode(file, img, &gowebper.Options{Level: gowebper.LevelDefault})
 }
 
-func fillRect(img *image.RGBA, x int, y int, width int, height int, c rgb, opacity float64) {
+func fillRect(img *image.NRGBA, x int, y int, width int, height int, c rgb, opacity float64) {
 	for py := y; py < y+height; py++ {
 		for px := x; px < x+width; px++ {
 			blendPixel(img, px, py, c, opacity)
@@ -67,7 +69,7 @@ func fillRect(img *image.RGBA, x int, y int, width int, height int, c rgb, opaci
 	}
 }
 
-func drawStrokeRect(img *image.RGBA, theme theme, x int, y int, width int, height int, strokeWidth int, opacity float64) {
+func drawStrokeRect(img *image.NRGBA, theme theme, x int, y int, width int, height int, strokeWidth int, opacity float64) {
 	for py := y; py < y+height; py++ {
 		for px := x; px < x+width; px++ {
 			inTop := py < y+strokeWidth
@@ -101,24 +103,29 @@ func mixRGB(a rgb, b rgb, t float64) rgb {
 	}
 }
 
-func blendPixel(img *image.RGBA, x int, y int, c rgb, opacity float64) {
+func blendPixel(img *image.NRGBA, x int, y int, c rgb, opacity float64) {
 	if !(image.Point{X: x, Y: y}.In(img.Bounds())) {
 		return
 	}
 	if opacity >= 1 {
-		img.SetRGBA(x, y, color.RGBA{R: c.r, G: c.g, B: c.b, A: 255})
+		img.SetNRGBA(x, y, color.NRGBA{R: c.r, G: c.g, B: c.b, A: 255})
 		return
 	}
 
 	offset := img.PixOffset(x, y)
-	img.Pix[offset+0] = blendChannel(img.Pix[offset+0], c.r, opacity)
-	img.Pix[offset+1] = blendChannel(img.Pix[offset+1], c.g, opacity)
-	img.Pix[offset+2] = blendChannel(img.Pix[offset+2], c.b, opacity)
-	img.Pix[offset+3] = 255
+	dstAlpha := float64(img.Pix[offset+3]) / 255
+	outAlpha := opacity + dstAlpha*(1-opacity)
+	if outAlpha == 0 {
+		return
+	}
+	img.Pix[offset+0] = compositeChannel(img.Pix[offset+0], dstAlpha, c.r, opacity, outAlpha)
+	img.Pix[offset+1] = compositeChannel(img.Pix[offset+1], dstAlpha, c.g, opacity, outAlpha)
+	img.Pix[offset+2] = compositeChannel(img.Pix[offset+2], dstAlpha, c.b, opacity, outAlpha)
+	img.Pix[offset+3] = uint8(math.Round(outAlpha * 255))
 }
 
-func blendChannel(dst uint8, src uint8, opacity float64) uint8 {
-	return uint8(math.Round(float64(dst)*(1-opacity) + float64(src)*opacity))
+func compositeChannel(dst uint8, dstAlpha float64, src uint8, srcAlpha float64, outAlpha float64) uint8 {
+	return uint8(math.Round((float64(src)*srcAlpha + float64(dst)*dstAlpha*(1-srcAlpha)) / outAlpha))
 }
 
 func mustRGB(value string) rgb {

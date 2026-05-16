@@ -14,19 +14,20 @@ import (
 const themePath = "theme.toml"
 
 type theme struct {
-	Font          string                `toml:"font"`
-	Background    string                `toml:"background"`
-	GradientStart string                `toml:"gradient_start"`
-	GradientMid   string                `toml:"gradient_mid"`
-	GradientEnd   string                `toml:"gradient_end"`
-	CharSpacing   int                   `toml:"char_spacing"`
-	WordSpacing   int                   `toml:"word_spacing"`
-	LineSpacing   int                   `toml:"line_spacing"`
-	Shadow        bool                  `toml:"shadow"`
-	ShadowOffsetX int                   `toml:"shadow_offset_x"`
-	ShadowOffsetY int                   `toml:"shadow_offset_y"`
-	ShadowStyle   string                `toml:"shadow_style"`
-	Assets        map[string]assetTheme `toml:"assets"`
+	Font            string                `toml:"font"`
+	Background      string                `toml:"background"`
+	LightBackground string                `toml:"light_background"`
+	GradientStart   string                `toml:"gradient_start"`
+	GradientMid     string                `toml:"gradient_mid"`
+	GradientEnd     string                `toml:"gradient_end"`
+	CharSpacing     int                   `toml:"char_spacing"`
+	WordSpacing     int                   `toml:"word_spacing"`
+	LineSpacing     int                   `toml:"line_spacing"`
+	Shadow          bool                  `toml:"shadow"`
+	ShadowOffsetX   int                   `toml:"shadow_offset_x"`
+	ShadowOffsetY   int                   `toml:"shadow_offset_y"`
+	ShadowStyle     string                `toml:"shadow_style"`
+	Assets          map[string]assetTheme `toml:"assets"`
 }
 
 type assetTheme struct {
@@ -79,10 +80,11 @@ func (t theme) validate() error {
 		return fmt.Errorf("theme font is required")
 	}
 	for name, value := range map[string]string{
-		"background":     t.Background,
-		"gradient_start": t.GradientStart,
-		"gradient_mid":   t.GradientMid,
-		"gradient_end":   t.GradientEnd,
+		"background":       t.Background,
+		"light_background": t.LightBackground,
+		"gradient_start":   t.GradientStart,
+		"gradient_mid":     t.GradientMid,
+		"gradient_end":     t.GradientEnd,
 	} {
 		if _, err := parseHexRGB(value); err != nil {
 			return fmt.Errorf("invalid %s color %q", name, value)

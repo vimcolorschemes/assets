@@ -1,6 +1,7 @@
 font = "pressstart"
 
-background = "#090e13"
+background = "#141719"
+light_background = "#e7e8e4"
 gradient_start = "#938aa9"
 gradient_mid = "#a88e90"
 gradient_end = "#b6927b"

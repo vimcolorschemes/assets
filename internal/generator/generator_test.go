@@ -23,8 +23,8 @@ func TestSelectedAssetsEmptyMeansAllAssets(t *testing.T) {
 }
 
 func TestVariantPathAddsSuffixBeforeExtension(t *testing.T) {
-	got := variantPath("out/v.svg", "borderless")
-	if got != "out/v-borderless.svg" {
-		t.Fatalf("variantPath() = %q, want out/v-borderless.svg", got)
+	got := variantPath("out/v/v.svg", "borderless")
+	if got != "out/v/v-borderless.svg" {
+		t.Fatalf("variantPath() = %q, want out/v/v-borderless.svg", got)
 	}
 }

@@ -30,7 +30,9 @@ func renderSVG(item asset, theme theme, cells []cell, cols int, rows int) []byte
 		fprintf(&out, "    </linearGradient>\n")
 		fprintf(&out, "  </defs>\n")
 	}
-	fprintf(&out, "  <rect width=\"100%%\" height=\"100%%\" fill=\"%s\"/>\n", theme.Background)
+	if !item.Transparent {
+		fprintf(&out, "  <rect width=\"100%%\" height=\"100%%\" fill=\"%s\"/>\n", assetBackground(item, theme))
+	}
 	if item.Border {
 		fprintf(&out, "  <rect x=\"1\" y=\"1\" width=\"%d\" height=\"%d\" fill=\"none\" stroke=\"url(#border-gradient)\" stroke-width=\"2\" opacity=\"0.9\"/>\n", layout.Width-2, layout.Height-2)
 		fprintf(&out, "  <rect x=\"5\" y=\"5\" width=\"%d\" height=\"%d\" fill=\"none\" stroke=\"url(#border-gradient)\" stroke-width=\"1\" opacity=\"0.45\"/>\n", layout.Width-10, layout.Height-10)

@@ -8,18 +8,19 @@ import (
 
 func testTheme() theme {
 	return theme{
-		Font:          "pressstart",
-		Background:    "#090e13",
-		GradientStart: "#938aa9",
-		GradientMid:   "#a88e90",
-		GradientEnd:   "#b6927b",
-		CharSpacing:   2,
-		WordSpacing:   2,
-		LineSpacing:   1,
-		Shadow:        true,
-		ShadowOffsetX: 1,
-		ShadowOffsetY: 1,
-		ShadowStyle:   "light",
+		Font:            "pressstart",
+		Background:      "#141719",
+		LightBackground: "#e7e8e4",
+		GradientStart:   "#938aa9",
+		GradientMid:     "#a88e90",
+		GradientEnd:     "#b6927b",
+		CharSpacing:     2,
+		WordSpacing:     2,
+		LineSpacing:     1,
+		Shadow:          true,
+		ShadowOffsetX:   1,
+		ShadowOffsetY:   1,
+		ShadowStyle:     "light",
 		Assets: map[string]assetTheme{
 			"v":               {Padding: 20, OffsetX: -5, OffsetY: -5},
 			"vimcolorschemes": {Padding: 40},
@@ -55,7 +56,8 @@ func TestLoadThemeFindsThemeInParentDirectory(t *testing.T) {
 
 	dir := t.TempDir()
 	if err := os.WriteFile(filepath.Join(dir, themePath), []byte(`font = "pressstart"
-background = "#090e13"
+background = "#141719"
+light_background = "#e7e8e4"
 gradient_start = "#938aa9"
 gradient_mid = "#a88e90"
 gradient_end = "#b6927b"

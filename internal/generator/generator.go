@@ -10,19 +10,21 @@ import (
 )
 
 type asset struct {
-	Name    string
-	Text    string
-	OutPath string
-	Padding int
-	Square  bool
-	Border  bool
-	OffsetX int
-	OffsetY int
+	Name        string
+	Text        string
+	OutPath     string
+	Padding     int
+	Square      bool
+	Border      bool
+	Background  string
+	Transparent bool
+	OffsetX     int
+	OffsetY     int
 }
 
 var defaultAssets = []asset{
-	{Name: "v", Text: "v", OutPath: "out/v.svg", Square: true, Border: true},
-	{Name: "vimcolorschemes", Text: "vimcolorschemes", OutPath: "out/vimcolorschemes.svg", Border: true},
+	{Name: "v", Text: "v", OutPath: "out/v/v.svg", Square: true, Border: true},
+	{Name: "vimcolorschemes", Text: "vimcolorschemes", OutPath: "out/vimcolorschemes/vimcolorschemes.svg", Border: true},
 }
 
 // Generate writes all assets, or only the named assets when names is non-empty.
@@ -103,15 +105,42 @@ func generateAsset(item asset, theme theme, font *ansifonts.Font) error {
 		return err
 	}
 
-	if err := writeAssetFiles(item, theme, cells, cols, rows); err != nil {
-		return err
+	for _, variant := range assetVariants(item, theme) {
+		if err := writeAssetFiles(variant, theme, cells, cols, rows); err != nil {
+			return err
+		}
 	}
+	return nil
+}
 
+func assetVariants(item asset, theme theme) []asset {
+	item.Background = theme.Background
 	borderless := item
 	borderless.Name += " borderless"
 	borderless.OutPath = variantPath(item.OutPath, "borderless")
 	borderless.Border = false
-	return writeAssetFiles(borderless, theme, cells, cols, rows)
+
+	light := item
+	light.Name += " light"
+	light.OutPath = variantPath(item.OutPath, "light")
+	light.Background = theme.LightBackground
+
+	lightBorderless := light
+	lightBorderless.Name += " borderless"
+	lightBorderless.OutPath = variantPath(item.OutPath, "light-borderless")
+	lightBorderless.Border = false
+
+	transparent := item
+	transparent.Name += " transparent"
+	transparent.OutPath = variantPath(item.OutPath, "transparent")
+	transparent.Transparent = true
+
+	transparentBorderless := transparent
+	transparentBorderless.Name += " borderless"
+	transparentBorderless.OutPath = variantPath(item.OutPath, "transparent-borderless")
+	transparentBorderless.Border = false
+
+	return []asset{item, borderless, light, lightBorderless, transparent, transparentBorderless}
 }
 
 func writeAssetFiles(item asset, theme theme, cells []cell, cols int, rows int) error {
@@ -125,13 +154,25 @@ func writeAssetFiles(item asset, theme theme, cells []cell, cols int, rows int) 
 
 	raster := renderRaster(item, theme, cells, cols, rows)
 	basePath := strings.TrimSuffix(item.OutPath, filepath.Ext(item.OutPath))
-	if err := writePNG(basePath+".png", raster); err != nil {
+	pngPath := basePath + ".png"
+	webpPath := basePath + ".webp"
+	if err := writePNG(pngPath, raster); err != nil {
 		return err
 	}
-	return writeWebP(basePath+".webp", raster)
+	if item.Transparent {
+		return nil
+	}
+	return writeWebP(webpPath, raster)
 }
 
 func variantPath(path string, variant string) string {
 	ext := filepath.Ext(path)
 	return strings.TrimSuffix(path, ext) + "-" + variant + ext
+}
+
+func assetBackground(item asset, theme theme) string {
+	if item.Background != "" {
+		return item.Background
+	}
+	return theme.Background
 }

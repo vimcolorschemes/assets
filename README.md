@@ -4,9 +4,9 @@ Generated visual assets for vimcolorschemes.
 
 ## Preview
 
-![vimcolorschemes ANSI art](out/vimcolorschemes.svg)
+![vimcolorschemes ANSI art](out/vimcolorschemes/vimcolorschemes.svg)
 
-![v ANSI art](out/v.svg)
+![v ANSI art](out/v/v.svg)
 
 ## Generate
 
@@ -16,12 +16,7 @@ Requires Go 1.25 or newer.
 make generate
 ```
 
-Generate a single asset:
-
-```sh
-make generate-v
-make generate-vimcolorschemes
-```
+Files are generated in `./out`.
 
 ## Test
 
@@ -29,8 +24,8 @@ make generate-vimcolorschemes
 make test
 ```
 
-Generated SVG, PNG, and WebP files are written to `out/`, including `*-borderless` variants without the TUI border.
+Generated SVG and PNG files are written to per-asset directories under `out/`, including dark/default, `*-light`, and `*-transparent` variants. Non-transparent variants also include WebP files. Each background variant has a bordered and `*-borderless` form.
 
 ## Theme
 
-Edit `theme.toml` to change the generated images without changing Go code. It controls the font, background, gradient colors, text spacing, shadow, and per-asset padding/offsets.
+Edit `theme.toml` to change the generated images without changing Go code. It controls the font, dark and light backgrounds, gradient colors, text spacing, shadow, and per-asset padding/offsets.
