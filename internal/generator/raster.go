@@ -18,14 +18,14 @@ type rgb struct {
 	b uint8
 }
 
-func renderRaster(item asset, cells []cell, cols int, rows int) *image.RGBA {
+func renderRaster(item asset, theme theme, cells []cell, cols int, rows int) *image.RGBA {
 	layout := assetLayout(item, cells, cols, rows)
 	img := image.NewRGBA(image.Rect(0, 0, layout.Width, layout.Height))
-	fillRect(img, 0, 0, layout.Width, layout.Height, mustRGB(backgroundColor), 1)
+	fillRect(img, 0, 0, layout.Width, layout.Height, mustRGB(theme.Background), 1)
 
 	if item.Border {
-		drawStrokeRect(img, 0, 0, layout.Width, layout.Height, 2, 0.9)
-		drawStrokeRect(img, 5, 5, layout.Width-10, layout.Height-10, 1, 0.45)
+		drawStrokeRect(img, theme, 0, 0, layout.Width, layout.Height, 2, 0.9)
+		drawStrokeRect(img, theme, 5, 5, layout.Width-10, layout.Height-10, 1, 0.45)
 	}
 
 	for _, c := range cells {
@@ -67,7 +67,7 @@ func fillRect(img *image.RGBA, x int, y int, width int, height int, c rgb, opaci
 	}
 }
 
-func drawStrokeRect(img *image.RGBA, x int, y int, width int, height int, strokeWidth int, opacity float64) {
+func drawStrokeRect(img *image.RGBA, theme theme, x int, y int, width int, height int, strokeWidth int, opacity float64) {
 	for py := y; py < y+height; py++ {
 		for px := x; px < x+width; px++ {
 			inTop := py < y+strokeWidth
@@ -77,15 +77,15 @@ func drawStrokeRect(img *image.RGBA, x int, y int, width int, height int, stroke
 			if !inTop && !inBottom && !inLeft && !inRight {
 				continue
 			}
-			blendPixel(img, px, py, borderColorAt(px, py, img.Bounds().Dx(), img.Bounds().Dy()), opacity)
+			blendPixel(img, px, py, borderColorAt(theme, px, py, img.Bounds().Dx(), img.Bounds().Dy()), opacity)
 		}
 	}
 }
 
-func borderColorAt(x int, y int, width int, height int) rgb {
-	start := mustRGB(startColor)
-	mid := mustRGB(midColor)
-	end := mustRGB(endColor)
+func borderColorAt(theme theme, x int, y int, width int, height int) rgb {
+	start := mustRGB(theme.GradientStart)
+	mid := mustRGB(theme.GradientMid)
+	end := mustRGB(theme.GradientEnd)
 	t := float64(x+y) / float64(width+height-2)
 	if t <= 0.5 {
 		return mixRGB(start, mid, t*2)

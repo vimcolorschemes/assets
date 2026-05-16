@@ -6,7 +6,7 @@ import (
 )
 
 func TestRenderRasterUsesComputedDimensionsAndCells(t *testing.T) {
-	img := renderRaster(asset{Name: "unit", Padding: 20, Border: true}, []cell{
+	img := renderRaster(asset{Name: "unit", Padding: 20, Border: true}, testTheme(), []cell{
 		{X: 0, Y: 0, Color: "#010203"},
 		{X: 1, Y: 0, Color: "#040506", Opacity: shadowOpacity},
 	}, 2, 1)
@@ -33,7 +33,7 @@ func TestRenderRasterUsesComputedDimensionsAndCells(t *testing.T) {
 }
 
 func TestRenderRasterSquareAssetUsesEqualDimensionsAndCentersContent(t *testing.T) {
-	img := renderRaster(asset{Name: "unit", Padding: 20, Square: true, Border: true}, []cell{
+	img := renderRaster(asset{Name: "unit", Padding: 20, Square: true, Border: true}, testTheme(), []cell{
 		{X: 0, Y: 0, Color: "#010203"},
 	}, 2, 1)
 
@@ -47,7 +47,7 @@ func TestRenderRasterSquareAssetUsesEqualDimensionsAndCentersContent(t *testing.
 }
 
 func TestRenderRasterBorderlessKeepsDimensionsAndOmitsBorder(t *testing.T) {
-	img := renderRaster(asset{Name: "unit", Padding: 20}, []cell{
+	img := renderRaster(asset{Name: "unit", Padding: 20}, testTheme(), []cell{
 		{X: 0, Y: 0, Color: "#010203"},
 	}, 2, 1)
 

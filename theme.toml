@@ -1,0 +1,23 @@
+font = "pressstart"
+
+background = "#090e13"
+gradient_start = "#938aa9"
+gradient_mid = "#a88e90"
+gradient_end = "#b6927b"
+
+char_spacing = 2
+word_spacing = 2
+line_spacing = 1
+
+shadow = true
+shadow_offset_x = 1
+shadow_offset_y = 1
+shadow_style = "light"
+
+[assets.v]
+padding = 20
+offset_x = -5
+offset_y = -5
+
+[assets.vimcolorschemes]
+padding = 40

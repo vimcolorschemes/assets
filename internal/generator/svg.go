@@ -7,14 +7,12 @@ import (
 )
 
 const (
-	cellWidth       = 10
-	cellHeight      = 18
-	cellInset       = 8
-	backgroundColor = "#090e13"
-	midColor        = "#a88e90"
+	cellWidth  = 10
+	cellHeight = 18
+	cellInset  = 8
 )
 
-func renderSVG(item asset, cells []cell, cols int, rows int) []byte {
+func renderSVG(item asset, theme theme, cells []cell, cols int, rows int) []byte {
 	layout := assetLayout(item, cells, cols, rows)
 	translateX := layout.OffsetX - cellInset
 	translateY := layout.OffsetY - cellInset
@@ -26,13 +24,13 @@ func renderSVG(item asset, cells []cell, cols int, rows int) []byte {
 	if item.Border {
 		fprintf(&out, "  <defs>\n")
 		fprintf(&out, "    <linearGradient id=\"border-gradient\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n")
-		fprintf(&out, "      <stop offset=\"0\" stop-color=\"%s\"/>\n", startColor)
-		fprintf(&out, "      <stop offset=\"0.5\" stop-color=\"%s\"/>\n", midColor)
-		fprintf(&out, "      <stop offset=\"1\" stop-color=\"%s\"/>\n", endColor)
+		fprintf(&out, "      <stop offset=\"0\" stop-color=\"%s\"/>\n", theme.GradientStart)
+		fprintf(&out, "      <stop offset=\"0.5\" stop-color=\"%s\"/>\n", theme.GradientMid)
+		fprintf(&out, "      <stop offset=\"1\" stop-color=\"%s\"/>\n", theme.GradientEnd)
 		fprintf(&out, "    </linearGradient>\n")
 		fprintf(&out, "  </defs>\n")
 	}
-	fprintf(&out, "  <rect width=\"100%%\" height=\"100%%\" fill=\"%s\"/>\n", backgroundColor)
+	fprintf(&out, "  <rect width=\"100%%\" height=\"100%%\" fill=\"%s\"/>\n", theme.Background)
 	if item.Border {
 		fprintf(&out, "  <rect x=\"1\" y=\"1\" width=\"%d\" height=\"%d\" fill=\"none\" stroke=\"url(#border-gradient)\" stroke-width=\"2\" opacity=\"0.9\"/>\n", layout.Width-2, layout.Height-2)
 		fprintf(&out, "  <rect x=\"5\" y=\"5\" width=\"%d\" height=\"%d\" fill=\"none\" stroke=\"url(#border-gradient)\" stroke-width=\"1\" opacity=\"0.45\"/>\n", layout.Width-10, layout.Height-10)

@@ -9,11 +9,6 @@ import (
 	"github.com/superstarryeyes/bit/ansifonts"
 )
 
-const (
-	startColor = "#938aa9"
-	endColor   = "#b6927b"
-)
-
 type asset struct {
 	Name    string
 	Text    string
@@ -26,18 +21,23 @@ type asset struct {
 }
 
 var defaultAssets = []asset{
-	{Name: "v", Text: "v", OutPath: "out/v.svg", Padding: 20, Square: true, Border: true, OffsetX: -5, OffsetY: -5},
-	{Name: "vimcolorschemes", Text: "vimcolorschemes", OutPath: "out/vimcolorschemes.svg", Padding: 40, Border: true},
+	{Name: "v", Text: "v", OutPath: "out/v.svg", Square: true, Border: true},
+	{Name: "vimcolorschemes", Text: "vimcolorschemes", OutPath: "out/vimcolorschemes.svg", Border: true},
 }
 
 // Generate writes all assets, or only the named assets when names is non-empty.
 func Generate(names []string) error {
+	theme, err := loadTheme()
+	if err != nil {
+		return fmt.Errorf("load theme: %w", err)
+	}
+
 	selected := selectedAssets(names)
 	if err := validateSelection(selected, defaultAssets); err != nil {
 		return err
 	}
 
-	font, err := ansifonts.LoadFont("pressstart")
+	font, err := ansifonts.LoadFont(theme.Font)
 	if err != nil {
 		return fmt.Errorf("load font: %w", err)
 	}
@@ -46,12 +46,23 @@ func Generate(names []string) error {
 		if len(selected) > 0 && !selected[item.Name] {
 			continue
 		}
-		if err := generateAsset(item, font); err != nil {
+		if err := generateAsset(theme.apply(item), theme, font); err != nil {
 			return fmt.Errorf("generate %s: %w", item.Name, err)
 		}
 	}
 
 	return nil
+}
+
+func (t theme) apply(item asset) asset {
+	assetTheme, ok := t.Assets[item.Name]
+	if !ok {
+		return item
+	}
+	item.Padding = assetTheme.Padding
+	item.OffsetX = assetTheme.OffsetX
+	item.OffsetY = assetTheme.OffsetY
+	return item
 }
 
 func selectedAssets(names []string) map[string]bool {
@@ -85,14 +96,14 @@ func validateSelection(selected map[string]bool, assets []asset) error {
 	return nil
 }
 
-func generateAsset(item asset, font *ansifonts.Font) error {
-	lines := ansifonts.RenderTextWithOptions(item.Text, font, renderOptions())
+func generateAsset(item asset, theme theme, font *ansifonts.Font) error {
+	lines := ansifonts.RenderTextWithOptions(item.Text, font, theme.renderOptions())
 	cells, cols, rows, err := parseANSI(lines)
 	if err != nil {
 		return err
 	}
 
-	if err := writeAssetFiles(item, cells, cols, rows); err != nil {
+	if err := writeAssetFiles(item, theme, cells, cols, rows); err != nil {
 		return err
 	}
 
@@ -100,11 +111,11 @@ func generateAsset(item asset, font *ansifonts.Font) error {
 	borderless.Name += " borderless"
 	borderless.OutPath = variantPath(item.OutPath, "borderless")
 	borderless.Border = false
-	return writeAssetFiles(borderless, cells, cols, rows)
+	return writeAssetFiles(borderless, theme, cells, cols, rows)
 }
 
-func writeAssetFiles(item asset, cells []cell, cols int, rows int) error {
-	svg := renderSVG(item, cells, cols, rows)
+func writeAssetFiles(item asset, theme theme, cells []cell, cols int, rows int) error {
+	svg := renderSVG(item, theme, cells, cols, rows)
 	if err := os.MkdirAll(filepath.Dir(item.OutPath), 0o755); err != nil {
 		return err
 	}
@@ -112,7 +123,7 @@ func writeAssetFiles(item asset, cells []cell, cols int, rows int) error {
 		return err
 	}
 
-	raster := renderRaster(item, cells, cols, rows)
+	raster := renderRaster(item, theme, cells, cols, rows)
 	basePath := strings.TrimSuffix(item.OutPath, filepath.Ext(item.OutPath))
 	if err := writePNG(basePath+".png", raster); err != nil {
 		return err
@@ -123,22 +134,4 @@ func writeAssetFiles(item asset, cells []cell, cols int, rows int) error {
 func variantPath(path string, variant string) string {
 	ext := filepath.Ext(path)
 	return strings.TrimSuffix(path, ext) + "-" + variant + ext
-}
-
-func renderOptions() ansifonts.RenderOptions {
-	return ansifonts.RenderOptions{
-		CharSpacing:            2,
-		WordSpacing:            2,
-		LineSpacing:            1,
-		Alignment:              ansifonts.CenterAlign,
-		TextColor:              startColor,
-		GradientColor:          endColor,
-		GradientDirection:      ansifonts.LeftRight,
-		UseGradient:            true,
-		ScaleFactor:            1,
-		ShadowEnabled:          true,
-		ShadowHorizontalOffset: 1,
-		ShadowVerticalOffset:   1,
-		ShadowStyle:            ansifonts.LightShade,
-	}
 }

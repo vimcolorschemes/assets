@@ -6,7 +6,7 @@ import (
 )
 
 func TestRenderSVGUsesComputedDimensionsAndMetadata(t *testing.T) {
-	svg := string(renderSVG(asset{Name: "unit<asset>", Padding: 20, Border: true}, []cell{
+	svg := string(renderSVG(asset{Name: "unit<asset>", Padding: 20, Border: true}, testTheme(), []cell{
 		{X: 0, Y: 0, Color: "#010203"},
 		{X: 1, Y: 0, Color: "#040506", Opacity: shadowOpacity},
 	}, 2, 1))
@@ -32,7 +32,7 @@ func TestRenderSVGUsesComputedDimensionsAndMetadata(t *testing.T) {
 }
 
 func TestRenderSVGSquareAssetUsesEqualDimensionsAndCentersContent(t *testing.T) {
-	svg := string(renderSVG(asset{Name: "unit", Padding: 20, Square: true, Border: true}, []cell{
+	svg := string(renderSVG(asset{Name: "unit", Padding: 20, Square: true, Border: true}, testTheme(), []cell{
 		{X: 0, Y: 0, Color: "#010203"},
 	}, 2, 1))
 
@@ -48,7 +48,7 @@ func TestRenderSVGSquareAssetUsesEqualDimensionsAndCentersContent(t *testing.T) 
 }
 
 func TestRenderSVGBorderlessKeepsDimensionsAndOmitsBorder(t *testing.T) {
-	svg := string(renderSVG(asset{Name: "unit", Padding: 20}, []cell{
+	svg := string(renderSVG(asset{Name: "unit", Padding: 20}, testTheme(), []cell{
 		{X: 0, Y: 0, Color: "#010203"},
 	}, 2, 1))
 
@@ -74,7 +74,7 @@ func TestRenderSVGBorderlessKeepsDimensionsAndOmitsBorder(t *testing.T) {
 }
 
 func TestRenderSVGAppliesOpticalOffset(t *testing.T) {
-	svg := string(renderSVG(asset{Name: "unit", Padding: 20, Square: true, OffsetX: -5, OffsetY: 4}, []cell{
+	svg := string(renderSVG(asset{Name: "unit", Padding: 20, Square: true, OffsetX: -5, OffsetY: 4}, testTheme(), []cell{
 		{X: 0, Y: 0, Color: "#010203"},
 	}, 2, 1))
 
