@@ -30,3 +30,19 @@ func TestRenderSVGUsesComputedDimensionsAndMetadata(t *testing.T) {
 		t.Fatalf("SVG still references removed shell scripts:\n%s", svg)
 	}
 }
+
+func TestRenderSVGSquareAssetUsesEqualDimensionsAndCentersContent(t *testing.T) {
+	svg := string(renderSVG(asset{Name: "unit", Padding: 20, Square: true}, []cell{
+		{X: 0, Y: 0, Color: "#010203"},
+	}, 2, 1))
+
+	wants := []string{
+		`width="60" height="60" viewBox="0 0 60 60"`,
+		`<g transform="translate(12 13)">`,
+	}
+	for _, want := range wants {
+		if !strings.Contains(svg, want) {
+			t.Fatalf("SVG does not contain %q\n%s", want, svg)
+		}
+	}
+}

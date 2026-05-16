@@ -32,6 +32,20 @@ func TestRenderRasterUsesComputedDimensionsAndCells(t *testing.T) {
 	}
 }
 
+func TestRenderRasterSquareAssetUsesEqualDimensionsAndCentersContent(t *testing.T) {
+	img := renderRaster(asset{Name: "unit", Padding: 20, Square: true}, []cell{
+		{X: 0, Y: 0, Color: "#010203"},
+	}, 2, 1)
+
+	if got := img.Bounds(); got.Dx() != 60 || got.Dy() != 60 {
+		t.Fatalf("bounds = %v, want 60x60", got)
+	}
+
+	if got := img.RGBAAt(20, 21); got != (color.RGBA{R: 1, G: 2, B: 3, A: 255}) {
+		t.Fatalf("centered cell = %#v, want #010203", got)
+	}
+}
+
 func TestParseHexRGBRejectsInvalidColor(t *testing.T) {
 	if _, err := parseHexRGB("nope"); err == nil {
 		t.Fatal("parseHexRGB returned nil error for invalid color")

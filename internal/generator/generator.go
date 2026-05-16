@@ -19,10 +19,11 @@ type asset struct {
 	Text    string
 	OutPath string
 	Padding int
+	Square  bool
 }
 
 var defaultAssets = []asset{
-	{Name: "v", Text: "v", OutPath: "out/v.svg", Padding: 20},
+	{Name: "v", Text: "v", OutPath: "out/v.svg", Padding: 20, Square: true},
 	{Name: "vimcolorschemes", Text: "vimcolorschemes", OutPath: "out/vimcolorschemes.svg", Padding: 40},
 }
 
