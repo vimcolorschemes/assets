@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	startColor = "#7fb4ca"
-	endColor   = "#98bb6c"
+	startColor = "#938aa9"
+	endColor   = "#b6927b"
 )
 
 type asset struct {

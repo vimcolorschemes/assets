@@ -10,8 +10,8 @@ const (
 	cellWidth       = 10
 	cellHeight      = 18
 	cellInset       = 8
-	backgroundColor = "#14171d"
-	midColor        = "#8cb89b"
+	backgroundColor = "#090e13"
+	midColor        = "#a88e90"
 )
 
 func renderSVG(item asset, cells []cell, cols int, rows int) []byte {
