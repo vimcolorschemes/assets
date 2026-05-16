@@ -2,9 +2,9 @@ font = "pressstart"
 
 background = "#141719"
 light_background = "#e7e8e4"
-gradient_start = "#938aa9"
-gradient_mid = "#a88e90"
-gradient_end = "#b6927b"
+gradient_start = "#8f9876"
+gradient_mid = "#aaa27f"
+gradient_end = "#788f7a"
 
 char_spacing = 2
 word_spacing = 2
