@@ -15,8 +15,7 @@ const (
 )
 
 func renderSVG(item asset, cells []cell, cols int, rows int) []byte {
-	width := cols*cellWidth + item.Padding*2
-	height := rows*cellHeight + item.Padding*2
+	width, height := assetDimensions(item, cols, rows)
 	translate := item.Padding - cellInset
 
 	var out bytes.Buffer
@@ -50,4 +49,8 @@ func renderSVG(item asset, cells []cell, cols int, rows int) []byte {
 
 func fprintf(out *bytes.Buffer, format string, args ...any) {
 	_, _ = fmt.Fprintf(out, format, args...)
+}
+
+func assetDimensions(item asset, cols int, rows int) (int, int) {
+	return cols*cellWidth + item.Padding*2, rows*cellHeight + item.Padding*2
 }

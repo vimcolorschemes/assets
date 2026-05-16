@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/superstarryeyes/bit/ansifonts"
 )
@@ -91,7 +92,16 @@ func generateAsset(item asset, font *ansifonts.Font) error {
 	if err := os.MkdirAll(filepath.Dir(item.OutPath), 0o755); err != nil {
 		return err
 	}
-	return os.WriteFile(item.OutPath, svg, 0o644)
+	if err := os.WriteFile(item.OutPath, svg, 0o644); err != nil {
+		return err
+	}
+
+	raster := renderRaster(item, cells, cols, rows)
+	basePath := strings.TrimSuffix(item.OutPath, filepath.Ext(item.OutPath))
+	if err := writePNG(basePath+".png", raster); err != nil {
+		return err
+	}
+	return writeWebP(basePath+".webp", raster)
 }
 
 func renderOptions() ansifonts.RenderOptions {
