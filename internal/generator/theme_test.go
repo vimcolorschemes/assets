@@ -22,15 +22,15 @@ func testTheme() theme {
 		ShadowOffsetY:   1,
 		ShadowStyle:     "light",
 		Assets: map[string]assetTheme{
-			"v":               {Padding: 20, OffsetX: -5, OffsetY: -5},
-			"vimcolorschemes": {Padding: 40},
+			"v":               {Padding: 20, BorderScale: 1, OffsetX: -5, OffsetY: -5},
+			"vimcolorschemes": {Padding: 40, BorderScale: 2},
 		},
 	}
 }
 
 func TestThemeApplyOverridesAssetLayout(t *testing.T) {
 	got := testTheme().apply(asset{Name: "v", Square: true})
-	if got.Padding != 20 || got.OffsetX != -5 || got.OffsetY != -5 || !got.Square {
+	if got.Padding != 20 || got.BorderScale != 1 || got.OffsetX != -5 || got.OffsetY != -5 || !got.Square {
 		t.Fatalf("theme.apply() = %#v, want themed padding/offsets with original fields kept", got)
 	}
 }
@@ -71,6 +71,7 @@ shadow_style = "light"
 
 [assets.v]
 padding = 20
+border_scale = 1
 offset_x = -5
 offset_y = -5
 `), 0o644); err != nil {

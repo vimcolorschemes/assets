@@ -34,8 +34,9 @@ func renderSVG(item asset, theme theme, cells []cell, cols int, rows int) []byte
 		fprintf(&out, "  <rect width=\"100%%\" height=\"100%%\" fill=\"%s\"/>\n", assetBackground(item, theme))
 	}
 	if item.Border {
-		fprintf(&out, "  <rect x=\"1\" y=\"1\" width=\"%d\" height=\"%d\" fill=\"none\" stroke=\"url(#border-gradient)\" stroke-width=\"2\" opacity=\"0.9\"/>\n", layout.Width-2, layout.Height-2)
-		fprintf(&out, "  <rect x=\"5\" y=\"5\" width=\"%d\" height=\"%d\" fill=\"none\" stroke=\"url(#border-gradient)\" stroke-width=\"1\" opacity=\"0.45\"/>\n", layout.Width-10, layout.Height-10)
+		border := borderMetrics(item)
+		fprintf(&out, "  <rect x=\"%d\" y=\"%d\" width=\"%d\" height=\"%d\" fill=\"none\" stroke=\"url(#border-gradient)\" stroke-width=\"%d\" opacity=\"0.9\"/>\n", border.OuterOffset, border.OuterOffset, layout.Width-border.OuterStroke, layout.Height-border.OuterStroke, border.OuterStroke)
+		fprintf(&out, "  <rect x=\"%d\" y=\"%d\" width=\"%d\" height=\"%d\" fill=\"none\" stroke=\"url(#border-gradient)\" stroke-width=\"%d\" opacity=\"0.45\"/>\n", border.InnerInset, border.InnerInset, layout.Width-border.InnerInset*2, layout.Height-border.InnerInset*2, border.InnerStroke)
 	}
 	fprintf(&out, "  <g transform=\"translate(%d %d)\">\n", translateX, translateY)
 
@@ -50,6 +51,26 @@ func renderSVG(item asset, theme theme, cells []cell, cols int, rows int) []byte
 	fprintf(&out, "  </g>\n")
 	fprintf(&out, "</svg>\n")
 	return out.Bytes()
+}
+
+type assetBorderMetrics struct {
+	OuterStroke int
+	OuterOffset int
+	InnerStroke int
+	InnerInset  int
+}
+
+func borderMetrics(item asset) assetBorderMetrics {
+	scale := item.BorderScale
+	if scale < 1 {
+		scale = 1
+	}
+	return assetBorderMetrics{
+		OuterStroke: 2 * scale,
+		OuterOffset: scale,
+		InnerStroke: scale,
+		InnerInset:  5 * scale,
+	}
 }
 
 func fprintf(out *bytes.Buffer, format string, args ...any) {

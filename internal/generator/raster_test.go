@@ -32,6 +32,20 @@ func TestRenderRasterUsesComputedDimensionsAndCells(t *testing.T) {
 	}
 }
 
+func TestRenderRasterScalesBorderMetrics(t *testing.T) {
+	img := renderRaster(asset{Name: "unit", Padding: 20, Border: true, BorderScale: 2}, testTheme(), []cell{
+		{X: 0, Y: 0, Color: "#010203"},
+	}, 2, 1)
+
+	background := color.NRGBA{R: 20, G: 23, B: 25, A: 255}
+	if got := img.NRGBAAt(5, 5); got != background {
+		t.Fatalf("unscaled inner border pixel = %#v, want background", got)
+	}
+	if got := img.NRGBAAt(10, 10); got == background {
+		t.Fatal("scaled inner border was not drawn at the expected inset")
+	}
+}
+
 func TestRenderRasterSquareAssetUsesEqualDimensionsAndCentersContent(t *testing.T) {
 	img := renderRaster(asset{Name: "unit", Padding: 20, Square: true, Border: true}, testTheme(), []cell{
 		{X: 0, Y: 0, Color: "#010203"},

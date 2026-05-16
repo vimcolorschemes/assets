@@ -31,9 +31,10 @@ type theme struct {
 }
 
 type assetTheme struct {
-	Padding int `toml:"padding"`
-	OffsetX int `toml:"offset_x"`
-	OffsetY int `toml:"offset_y"`
+	Padding     int `toml:"padding"`
+	BorderScale int `toml:"border_scale"`
+	OffsetX     int `toml:"offset_x"`
+	OffsetY     int `toml:"offset_y"`
 }
 
 func loadTheme() (theme, error) {

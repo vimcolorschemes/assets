@@ -17,8 +17,10 @@ shadow_style = "light"
 
 [assets.v]
 padding = 20
+border_scale = 2
 offset_x = -5
 offset_y = -5
 
 [assets.vimcolorschemes]
 padding = 40
+border_scale = 3

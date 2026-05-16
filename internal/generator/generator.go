@@ -16,6 +16,7 @@ type asset struct {
 	Padding     int
 	Square      bool
 	Border      bool
+	BorderScale int
 	Background  string
 	Transparent bool
 	OffsetX     int
@@ -62,6 +63,7 @@ func (t theme) apply(item asset) asset {
 		return item
 	}
 	item.Padding = assetTheme.Padding
+	item.BorderScale = assetTheme.BorderScale
 	item.OffsetX = assetTheme.OffsetX
 	item.OffsetY = assetTheme.OffsetY
 	return item

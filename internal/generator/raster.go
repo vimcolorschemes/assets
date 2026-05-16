@@ -26,8 +26,9 @@ func renderRaster(item asset, theme theme, cells []cell, cols int, rows int) *im
 	}
 
 	if item.Border {
-		drawStrokeRect(img, theme, 0, 0, layout.Width, layout.Height, 2, 0.9)
-		drawStrokeRect(img, theme, 5, 5, layout.Width-10, layout.Height-10, 1, 0.45)
+		border := borderMetrics(item)
+		drawStrokeRect(img, theme, 0, 0, layout.Width, layout.Height, border.OuterStroke, 0.9)
+		drawStrokeRect(img, theme, border.InnerInset, border.InnerInset, layout.Width-border.InnerInset*2, layout.Height-border.InnerInset*2, border.InnerStroke, 0.45)
 	}
 
 	for _, c := range cells {

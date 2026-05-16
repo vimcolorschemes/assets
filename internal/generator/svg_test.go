@@ -31,6 +31,22 @@ func TestRenderSVGUsesComputedDimensionsAndMetadata(t *testing.T) {
 	}
 }
 
+func TestRenderSVGScalesBorderMetrics(t *testing.T) {
+	svg := string(renderSVG(asset{Name: "unit", Padding: 20, Border: true, BorderScale: 2}, testTheme(), []cell{
+		{X: 0, Y: 0, Color: "#010203"},
+	}, 2, 1))
+
+	wants := []string{
+		`<rect x="2" y="2" width="56" height="54" fill="none" stroke="url(#border-gradient)" stroke-width="4" opacity="0.9"/>`,
+		`<rect x="10" y="10" width="40" height="38" fill="none" stroke="url(#border-gradient)" stroke-width="2" opacity="0.45"/>`,
+	}
+	for _, want := range wants {
+		if !strings.Contains(svg, want) {
+			t.Fatalf("SVG does not contain %q\n%s", want, svg)
+		}
+	}
+}
+
 func TestRenderSVGSquareAssetUsesEqualDimensionsAndCentersContent(t *testing.T) {
 	svg := string(renderSVG(asset{Name: "unit", Padding: 20, Square: true, Border: true}, testTheme(), []cell{
 		{X: 0, Y: 0, Color: "#010203"},

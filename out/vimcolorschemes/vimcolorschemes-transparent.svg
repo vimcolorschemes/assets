@@ -8,8 +8,8 @@
       <stop offset="1" stop-color="#788f7a"/>
     </linearGradient>
   </defs>
-  <rect x="1" y="1" width="2368" height="222" fill="none" stroke="url(#border-gradient)" stroke-width="2" opacity="0.9"/>
-  <rect x="5" y="5" width="2360" height="214" fill="none" stroke="url(#border-gradient)" stroke-width="1" opacity="0.45"/>
+  <rect x="3" y="3" width="2364" height="218" fill="none" stroke="url(#border-gradient)" stroke-width="6" opacity="0.9"/>
+  <rect x="15" y="15" width="2340" height="194" fill="none" stroke="url(#border-gradient)" stroke-width="3" opacity="0.45"/>
   <g transform="translate(32 32)">
     <rect x="188" y="8" width="10" height="18" fill="#8d9776"/>
     <rect x="198" y="8" width="10" height="18" fill="#8d9776"/>
