@@ -41,7 +41,7 @@ func TestRenderRasterSquareAssetUsesEqualDimensionsAndCentersContent(t *testing.
 		t.Fatalf("bounds = %v, want 60x60", got)
 	}
 
-	if got := img.RGBAAt(20, 21); got != (color.RGBA{R: 1, G: 2, B: 3, A: 255}) {
+	if got := img.RGBAAt(25, 21); got != (color.RGBA{R: 1, G: 2, B: 3, A: 255}) {
 		t.Fatalf("centered cell = %#v, want #010203", got)
 	}
 }

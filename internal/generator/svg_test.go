@@ -38,7 +38,7 @@ func TestRenderSVGSquareAssetUsesEqualDimensionsAndCentersContent(t *testing.T) 
 
 	wants := []string{
 		`width="60" height="60" viewBox="0 0 60 60"`,
-		`<g transform="translate(12 13)">`,
+		`<g transform="translate(17 13)">`,
 	}
 	for _, want := range wants {
 		if !strings.Contains(svg, want) {
@@ -70,5 +70,15 @@ func TestRenderSVGBorderlessKeepsDimensionsAndOmitsBorder(t *testing.T) {
 		if strings.Contains(svg, value) {
 			t.Fatalf("borderless SVG contains %q\n%s", value, svg)
 		}
+	}
+}
+
+func TestRenderSVGAppliesOpticalOffset(t *testing.T) {
+	svg := string(renderSVG(asset{Name: "unit", Padding: 20, Square: true, OffsetX: -5, OffsetY: 4}, []cell{
+		{X: 0, Y: 0, Color: "#010203"},
+	}, 2, 1))
+
+	if !strings.Contains(svg, `<g transform="translate(12 17)">`) {
+		t.Fatalf("SVG does not contain optical offset transform\n%s", svg)
 	}
 }

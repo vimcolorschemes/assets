@@ -21,10 +21,12 @@ type asset struct {
 	Padding int
 	Square  bool
 	Border  bool
+	OffsetX int
+	OffsetY int
 }
 
 var defaultAssets = []asset{
-	{Name: "v", Text: "v", OutPath: "out/v.svg", Padding: 20, Square: true, Border: true},
+	{Name: "v", Text: "v", OutPath: "out/v.svg", Padding: 20, Square: true, Border: true, OffsetX: -5},
 	{Name: "vimcolorschemes", Text: "vimcolorschemes", OutPath: "out/vimcolorschemes.svg", Padding: 40, Border: true},
 }
 

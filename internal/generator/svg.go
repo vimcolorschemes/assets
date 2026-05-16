@@ -15,7 +15,7 @@ const (
 )
 
 func renderSVG(item asset, cells []cell, cols int, rows int) []byte {
-	layout := assetLayout(item, cols, rows)
+	layout := assetLayout(item, cells, cols, rows)
 	translateX := layout.OffsetX - cellInset
 	translateY := layout.OffsetY - cellInset
 
@@ -63,7 +63,7 @@ type assetRenderLayout struct {
 	OffsetY int
 }
 
-func assetLayout(item asset, cols int, rows int) assetRenderLayout {
+func assetLayout(item asset, cells []cell, cols int, rows int) assetRenderLayout {
 	contentWidth := cols * cellWidth
 	contentHeight := rows * cellHeight
 	width := contentWidth + item.Padding*2
@@ -72,11 +72,52 @@ func assetLayout(item asset, cols int, rows int) assetRenderLayout {
 		width = max(width, height)
 		height = width
 	}
+	offsetX := (width - contentWidth) / 2
+	offsetY := (height - contentHeight) / 2
+	if item.Square {
+		minX, maxX, hasX := frontCellBounds(cells, true)
+		minY, maxY, hasY := frontCellBounds(cells, false)
+		offsetX = centeredOffset(width, contentWidth, cellWidth, minX, maxX, hasX)
+		offsetY = centeredOffset(height, contentHeight, cellHeight, minY, maxY, hasY)
+	}
 
 	return assetRenderLayout{
 		Width:   width,
 		Height:  height,
-		OffsetX: (width - contentWidth) / 2,
-		OffsetY: (height - contentHeight) / 2,
+		OffsetX: offsetX + item.OffsetX,
+		OffsetY: offsetY + item.OffsetY,
 	}
+}
+
+func centeredOffset(size int, contentSize int, cellSize int, minCell int, maxCell int, ok bool) int {
+	if !ok {
+		return (size - contentSize) / 2
+	}
+
+	frontSize := (maxCell - minCell + 1) * cellSize
+	return (size-frontSize)/2 - minCell*cellSize
+}
+
+func frontCellBounds(cells []cell, horizontal bool) (int, int, bool) {
+	minCell := 0
+	maxCell := 0
+	found := false
+	for _, c := range cells {
+		if c.Opacity != "" {
+			continue
+		}
+
+		value := c.Y
+		if horizontal {
+			value = c.X
+		}
+		if !found || value < minCell {
+			minCell = value
+		}
+		if !found || value > maxCell {
+			maxCell = value
+		}
+		found = true
+	}
+	return minCell, maxCell, found
 }
