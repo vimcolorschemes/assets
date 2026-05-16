@@ -26,7 +26,7 @@ type asset struct {
 }
 
 var defaultAssets = []asset{
-	{Name: "v", Text: "v", OutPath: "out/v.svg", Padding: 20, Square: true, Border: true, OffsetX: -5},
+	{Name: "v", Text: "v", OutPath: "out/v.svg", Padding: 20, Square: true, Border: true, OffsetX: -5, OffsetY: -5},
 	{Name: "vimcolorschemes", Text: "vimcolorschemes", OutPath: "out/vimcolorschemes.svg", Padding: 40, Border: true},
 }
 
