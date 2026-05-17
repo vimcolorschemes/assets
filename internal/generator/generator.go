@@ -13,12 +13,16 @@ type asset struct {
 	Name        string
 	Text        string
 	OutPath     string
+	Label       string
 	Padding     int
+	Width       int
+	Height      int
 	Square      bool
 	Border      bool
 	BorderScale int
 	Background  string
 	Transparent bool
+	OpenGraph   bool
 	OffsetX     int
 	OffsetY     int
 }
@@ -26,6 +30,8 @@ type asset struct {
 var defaultAssets = []asset{
 	{Name: "v", Text: "v", OutPath: "out/v/v.svg", Square: true, Border: true},
 	{Name: "vimcolorschemes", Text: "vimcolorschemes", OutPath: "out/vimcolorschemes/vimcolorschemes.svg", Border: true},
+	{Name: "opengraph", Text: "vimcolorschemes", OutPath: "out/opengraph/opengraph.svg", Width: 1200, Height: 630, OpenGraph: true},
+	{Name: "docs-opengraph", Text: "vimcolorschemes/docs", OutPath: "out/opengraph/docs-opengraph.svg", Width: 1200, Height: 630, OpenGraph: true},
 }
 
 // Generate writes all assets, or only the named assets when names is non-empty.
@@ -117,6 +123,10 @@ func generateAsset(item asset, theme theme, font *ansifonts.Font) error {
 
 func assetVariants(item asset, theme theme) []asset {
 	item.Background = theme.Background
+	if item.OpenGraph {
+		return []asset{item}
+	}
+
 	borderless := item
 	borderless.Name += " borderless"
 	borderless.OutPath = variantPath(item.OutPath, "borderless")
@@ -154,17 +164,25 @@ func writeAssetFiles(item asset, theme theme, cells []cell, cols int, rows int) 
 		return err
 	}
 
-	raster := renderRaster(item, theme, cells, cols, rows)
 	basePath := strings.TrimSuffix(item.OutPath, filepath.Ext(item.OutPath))
 	pngPath := basePath + ".png"
 	webpPath := basePath + ".webp"
+	if item.OpenGraph {
+		if err := writePNGFromSVG(pngPath, svg); err == nil {
+			if err := writeWebPFromSVG(webpPath, svg); err == nil {
+				return nil
+			}
+		}
+	}
+
+	raster := renderRaster(item, theme, cells, cols, rows)
 	if err := writePNG(pngPath, raster); err != nil {
 		return err
 	}
 	if item.Transparent {
 		return nil
 	}
-	return writeWebP(webpPath, raster)
+	return writeWebP(webpPath, raster, item.OpenGraph)
 }
 
 func variantPath(path string, variant string) string {

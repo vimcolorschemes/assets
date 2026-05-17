@@ -7,3 +7,5 @@ require github.com/superstarryeyes/bit v0.3.0
 require github.com/eringen/gowebper v0.1.2
 
 require github.com/BurntSushi/toml v1.6.0
+
+require golang.org/x/image v0.40.0 // indirect

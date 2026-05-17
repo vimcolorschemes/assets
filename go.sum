@@ -4,3 +4,5 @@ github.com/eringen/gowebper v0.1.2 h1:9rvIvlTK+CiMuc+cTC3Ozzsz6e3e1rOo7z3kSfWnPT
 github.com/eringen/gowebper v0.1.2/go.mod h1:B12vKXoit3pdxVagJNqmnQ/SDciA+UjYRnhn4dAIxNk=
 github.com/superstarryeyes/bit v0.3.0 h1:/DF6lrLuBAd//CmzFjX04d9iI7mqsVnSxgFVLJQ48Lc=
 github.com/superstarryeyes/bit v0.3.0/go.mod h1:uAuOfvyb/wX3PW18S2UP6ySdl79ISPSeLIUiCEa/FNk=
+golang.org/x/image v0.40.0 h1:Tw4GyDXMo+daZN1znreBRC3VayR1aLFUyUEOLUdW1a8=
+golang.org/x/image v0.40.0/go.mod h1:uIc348UZMSvS5Z65CVZ7iDPaNobNFEPeJ4kbqTOszmA=

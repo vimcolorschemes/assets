@@ -63,6 +63,34 @@ func TestRenderSVGSquareAssetUsesEqualDimensionsAndCentersContent(t *testing.T) 
 	}
 }
 
+func TestRenderSVGOpenGraphUsesFixedSocialDimensions(t *testing.T) {
+	svg := string(renderSVG(asset{Name: "opengraph", Text: "vimcolorschemes", Label: "docs", Width: 1200, Height: 630, Border: true, BorderScale: 4, OpenGraph: true}, testTheme(), []cell{
+		{X: 0, Y: 0, Color: "#010203"},
+	}, 2, 1))
+
+	wants := []string{
+		`width="1200" height="630"`,
+		`Open Graph image`,
+		`filter id="soft-blur"`,
+		`>docs</text>`,
+	}
+	for _, want := range wants {
+		if !strings.Contains(svg, want) {
+			t.Fatalf("SVG does not contain %q\n%s", want, svg)
+		}
+	}
+}
+
+func TestRenderSVGOpenGraphOmitsEmptyLabel(t *testing.T) {
+	svg := string(renderSVG(asset{Name: "opengraph", Text: "vimcolorschemes", Width: 1200, Height: 630, OpenGraph: true}, testTheme(), []cell{
+		{X: 0, Y: 0, Color: "#010203"},
+	}, 2, 1))
+
+	if strings.Contains(svg, `text-anchor="middle"`) {
+		t.Fatalf("SVG contains a label even though Label is empty\n%s", svg)
+	}
+}
+
 func TestRenderSVGBorderlessKeepsDimensionsAndOmitsBorder(t *testing.T) {
 	svg := string(renderSVG(asset{Name: "unit", Padding: 20}, testTheme(), []cell{
 		{X: 0, Y: 0, Color: "#010203"},

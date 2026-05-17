@@ -80,6 +80,20 @@ func TestRenderRasterBorderlessKeepsDimensionsAndOmitsBorder(t *testing.T) {
 	}
 }
 
+func TestRenderRasterOpenGraphUsesFixedSocialDimensions(t *testing.T) {
+	img := renderRaster(asset{Name: "opengraph", Width: 1200, Height: 630, Border: true, BorderScale: 4, OpenGraph: true}, testTheme(), []cell{
+		{X: 0, Y: 0, Color: "#010203"},
+	}, 2, 1)
+
+	if got := img.Bounds(); got.Dx() != 1200 || got.Dy() != 630 {
+		t.Fatalf("bounds = %v, want 1200x630", got)
+	}
+
+	if got := img.NRGBAAt(0, 0); got.A != 255 {
+		t.Fatalf("edge alpha = %d, want opaque", got.A)
+	}
+}
+
 func TestParseHexRGBRejectsInvalidColor(t *testing.T) {
 	if _, err := parseHexRGB("nope"); err == nil {
 		t.Fatal("parseHexRGB returned nil error for invalid color")

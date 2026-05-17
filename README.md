@@ -8,6 +8,8 @@ Generated visual assets for vimcolorschemes.
 
 ![v ANSI art](out/v/v.svg)
 
+![vimcolorschemes Open Graph image](out/opengraph/opengraph.svg)
+
 ## Generate
 
 Requires Go 1.25 or newer.
@@ -24,7 +26,7 @@ Files are generated in `./out`.
 make test
 ```
 
-Generated SVG and PNG files are written to per-asset directories under `out/`, including dark/default, `*-light`, and `*-transparent` variants. Non-transparent variants also include WebP files. Each background variant has a bordered and `*-borderless` form.
+Generated SVG and PNG files are written to per-asset directories under `out/`, including dark/default, `*-light`, and `*-transparent` variants. Non-transparent variants also include WebP files. Each background variant has a bordered and `*-borderless` form. Open Graph images are generated as fixed 1200x630 dark social cards under `out/opengraph/`.
 
 ## Theme
 
